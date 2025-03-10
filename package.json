@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "npm run docker:up && next dev",
+    "dev": "npm run docker:up && next dev -H 0.0.0.0",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -H 0.0.0.0",
     "lint:check": "prettier --check .",
     "lint:fix": "prettier --write .",
     "test": "jest",
