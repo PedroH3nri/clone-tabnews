@@ -2,7 +2,7 @@ import orchestrator from "tests/orchestrator.js";
 
 beforeAll(async () => {
   await orchestrator.waitForAllServices();
-})
+});
 
 test("GET to /api/v1/status should return 200", async () => {
   const response = await fetch("http:localhost:3000/api/v1/status");
@@ -20,12 +20,18 @@ test("GET to /api/v1/status should return 200", async () => {
 
   expect(responseBody.dependencies.database.max_connections).toBeDefined();
   expect(responseBody.dependencies.database.max_connections).toBe(100);
-  expect(typeof responseBody.dependencies.database.max_connections).toBe("number");
+  expect(typeof responseBody.dependencies.database.max_connections).toBe(
+    "number",
+  );
 
   expect(responseBody.dependencies.database.active_connections).toBeDefined();
   expect(responseBody.dependencies.database.active_connections).toEqual(1);
-  expect(typeof responseBody.dependencies.database.active_connections).toBe("number");
+  expect(typeof responseBody.dependencies.database.active_connections).toBe(
+    "number",
+  );
 
   expect(responseBody.dependencies.database.idle_connections).toBeDefined();
-  expect(typeof responseBody.dependencies.database.idle_connections).toBe("number");
+  expect(typeof responseBody.dependencies.database.idle_connections).toBe(
+    "number",
+  );
 });
