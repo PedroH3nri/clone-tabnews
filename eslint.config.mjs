@@ -28,6 +28,6 @@ export default defineConfig([
       globals: pluginJest.environments.globals.globals,
     },
   },
-  
+
   pluginReact.configs.flat.recommended,
 ]);
