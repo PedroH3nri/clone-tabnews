@@ -1,0 +1,2 @@
+npx secretlint "**/*"
+npx prettier --check .
