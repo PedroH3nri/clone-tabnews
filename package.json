@@ -16,9 +16,9 @@
     "lint:eslint:fix": "npx eslint . --fix",
     "test": "npm run docker:up && concurrently --hide next -k --success command-jest -n next,jest \"next dev\" \"jest --runInBand\"",
     "test:watch": "npm run docker:up && concurrently --hide next -k --success command-jest -n next,jest \"next dev\" \"jest --watchAll --runInBand\"",
-    "migration:create": "node-pg-migrate -m infra/migrations create",
-    "migration:up": "node-pg-migrate -m infra/migrations --envPath .env.development up",
-    "migration:down": "node-pg-migrate -m infra/migrations --envPath .env.development down",
+    "migrations:create": "node-pg-migrate -m infra/migrations create",
+    "migrations:up": "node-pg-migrate -m infra/migrations --envPath .env.development up",
+    "migrations:down": "node-pg-migrate -m infra/migrations --envPath .env.development down",
     "prepare": "husky",
     "commit": "cz"
   },
