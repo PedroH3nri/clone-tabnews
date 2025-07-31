@@ -7,7 +7,7 @@
     "dev": "sh -c 'trap \"npm run docker:stop\" SIGINT; npm run docker:up && npm run docker:wait:database && npm run migrations:up && next dev'",
     "posttest": "npm run docker:stop",
     "test": "npm run docker:up && concurrently --hide next -k --success command-jest -n next,jest \"next dev\" \"jest --runInBand\"",
-    "test:watch": "jest --watchAll --runInBand",
+    "test:watch": "jest --watchAll --runInBand --verbose",
     "docker:up": "docker compose -f infra/compose.yaml up -d",
     "docker:start": "docker compose -f infra/compose.yaml start",
     "docker:stop": "docker compose -f infra/compose.yaml stop",
