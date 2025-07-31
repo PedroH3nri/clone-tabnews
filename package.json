@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "npm run docker:up && npm run docker:wait:database && npm run migrations:up && next dev",
+    "dev": "sh -c 'trap \"npm run docker:stop\" SIGINT; npm run docker:up && npm run docker:wait:database && npm run migrations:up && next dev'",
+    "posttest": "npm run docker:stop",
     "test": "npm run docker:up && concurrently --hide next -k --success command-jest -n next,jest \"next dev\" \"jest --runInBand\"",
     "test:watch": "jest --watchAll --runInBand",
     "docker:up": "docker compose -f infra/compose.yaml up -d",
