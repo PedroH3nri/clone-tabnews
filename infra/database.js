@@ -1,4 +1,7 @@
 import { Client } from "pg";
+import { resolve } from "node:path";
+import migrationRunner from "node-pg-migrate";
+import { InternalServerError } from "./errors/errors";
 
 async function query(queryObject) {
   let client;
@@ -30,9 +33,32 @@ async function getNewClient() {
   return client;
 }
 
+async function runMigrations({ dry_run = true }) {
+  const dbClient = await getNewClient();
+
+  const migrateOptions = {
+    dbClient: dbClient,
+    dryRun: dry_run,
+    dir: resolve("infra", "migrations"),
+    verbose: true,
+    direction: "up",
+    migrationsTable: "pgmigrations",
+  };
+
+  try {
+    return await migrationRunner(migrateOptions);
+  } catch (error) {
+    console.log(error);
+    throw new InternalServerError({ cause: error });
+  } finally {
+    await dbClient.end();
+  }
+}
+
 const database = {
   query,
   getNewClient,
+  runMigrations,
 };
 
 export default database;

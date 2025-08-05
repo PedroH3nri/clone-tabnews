@@ -21,7 +21,7 @@ function onNoMatchHandler(request, response) {
 }
 
 function onErrorHandler(error, request, response) {
-  console.log("Error dentro do catch do next-connect");
+  console.log("Error dentro do catch do next-connect: Status");
 
   const publicErrorObject = new InternalServerError({ cause: error });
 
