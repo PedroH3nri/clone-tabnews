@@ -1,7 +1,7 @@
 import { Client } from "pg";
 import { resolve } from "node:path";
 import migrationRunner from "node-pg-migrate";
-import { InternalServerError } from "./errors/errors";
+import { InternalServerError, ServiceError } from "./errors/errors";
 
 async function query(queryObject) {
   let client;
@@ -10,8 +10,11 @@ async function query(queryObject) {
     client = await getNewClient();
     return await client.query(queryObject);
   } catch (error) {
-    console.error(error);
-    throw error;
+    const serviceErrorObject = new ServiceError({
+      message: "Erro na conexão com Banco ou na Query.",
+      cause: error,
+    });
+    throw serviceErrorObject;
   } finally {
     await client?.end();
   }

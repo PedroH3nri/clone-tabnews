@@ -1,34 +1,12 @@
 import { createRouter } from "next-connect";
 import database from "infra/database.js";
-import {
-  InternalServerError,
-  MethodNotAllowedError,
-} from "infra/errors/errors";
+import controller from "infra/controller";
 
 const router = createRouter();
 
-router.get(status);
+export default router.handler(controller.errorHandlers);
 
-export default router.handler({
-  onNoMatch: onNoMatchHandler,
-  onError: onErrorHandler,
-});
-
-function onNoMatchHandler(request, response) {
-  const error = new MethodNotAllowedError();
-
-  response.status(405).json(error);
-}
-
-function onErrorHandler(error, request, response) {
-  console.log("Error dentro do catch do next-connect: Status");
-
-  const publicErrorObject = new InternalServerError({ cause: error });
-
-  response.status(500).json(publicErrorObject);
-}
-
-async function status(request, response) {
+router.get(async (request, response) => {
   const updatedAt = new Date().toISOString();
 
   const dbName = process.env.POSTGRES_DB;
@@ -63,4 +41,4 @@ async function status(request, response) {
       },
     },
   });
-}
+});
