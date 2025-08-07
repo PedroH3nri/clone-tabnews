@@ -6,7 +6,7 @@ import { ServiceError } from "infra/errors/errors.js";
 const migrateOptions = {
   dryRun: true,
   dir: resolve("infra", "migrations"),
-  verbose: true,
+  log: () => {},
   direction: "up",
   migrationsTable: "pgmigrations",
 };
