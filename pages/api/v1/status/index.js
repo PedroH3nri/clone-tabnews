@@ -1,6 +1,12 @@
+import { createRouter } from "next-connect";
 import database from "infra/database.js";
+import controller from "infra/controller";
 
-async function status(request, response) {
+const router = createRouter();
+
+export default router.handler(controller.errorHandlers);
+
+router.get(async (request, response) => {
   const updatedAt = new Date().toISOString();
 
   const dbName = process.env.POSTGRES_DB;
@@ -35,6 +41,4 @@ async function status(request, response) {
       },
     },
   });
-}
-
-export default status;
+});
