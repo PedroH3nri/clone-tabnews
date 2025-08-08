@@ -1,6 +1,7 @@
 import {
   InternalServerError,
   MethodNotAllowedError,
+  NotFoundError,
   ValidationError,
 } from "infra/errors/errors";
 
@@ -15,13 +16,17 @@ function onErrorHandler(error, request, response) {
     response.status(error.statusCode).json(error);
   }
 
+  if (error instanceof NotFoundError) {
+    response.status(error.statusCode).json(error);
+  }
+
   const publicError = new InternalServerError({
     cause: error,
     statusCode: error.statusCode,
   });
 
-  console.error(publicError);
-  response.status(publicError.statusCode).json(publicError);
+  // console.error('CONTROLLER:', publicError);
+  return response.status(publicError.statusCode).json(publicError);
 }
 
 const controller = {
