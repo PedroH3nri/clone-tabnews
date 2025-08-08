@@ -29,10 +29,25 @@ async function runPendingMigrations() {
   await migrator.runMigrations();
 }
 
+async function addUserTest() {
+  await fetch("http:localhost:3000/api/v1/users", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      username: "UsernameTest",
+      email: "emailtest@curso.dev",
+      password: "senha@123",
+    }),
+  });
+}
+
 const orchestrator = {
   waitForAllServices,
   clearDatabase,
   runPendingMigrations,
+  addUserTest,
 };
 
 export default orchestrator;

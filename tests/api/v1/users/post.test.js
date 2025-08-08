@@ -1,6 +1,5 @@
 import { version as uuidVersion } from "uuid";
 import orchestrator from "tests/orchestrator.js";
-import database from "infra/database.js";
 
 beforeAll(async () => {
   await orchestrator.waitForAllServices();
@@ -48,7 +47,7 @@ describe("POST to /api/v1/users", () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: "pedro",
+          username: "pedro32",
           email: "pedroH@curso.dev",
           password: "senha@123",
         }),
@@ -72,8 +71,8 @@ describe("POST to /api/v1/users", () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: "pedro123",
-          email: "usernameduplicado1@curso.dev",
+          username: "Pedro123",
+          email: "usernameduplicado@curso.dev",
           password: "senha@123",
         }),
       });

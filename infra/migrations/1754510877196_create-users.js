@@ -1,4 +1,6 @@
 exports.up = (pgm) => {
+  pgm.createExtension("citext", { ifNotExists: true });
+
   pgm.createTable("users", {
     id: {
       type: "uuid",
@@ -6,36 +8,46 @@ exports.up = (pgm) => {
       default: pgm.func("gen_random_uuid()"),
     },
 
-    // For reference, GitHub limits useranames to 39 characters.
     username: {
-      type: "varchar(30)",
+      type: "citext",
       notNull: true,
       unique: true,
     },
 
-    // Why 254 in length? https://stackoverflow.com/a/1199238
     email: {
-      type: "varchar(254)",
+      type: "citext",
       notNull: true,
       unique: true,
     },
 
-    // Why 72 in length? https://security.stackexchange.com/questions/39849/does-bcrypt-have-a-maximum-password-length/39851#39851
+    // Why 60 in length? https://www.npmjs.com/package/bcrypt#hash-info
     password: {
-      type: "varchar(72)",
+      type: "varchar(60)",
       notNull: true,
     },
 
     // Why timestamptz with timezone? https://justatheory.com/2012/04/postgres-use-timestamptz/
     created_at: {
       type: "timestamptz",
-      default: pgm.func("now()"),
+      notNull: true,
+      default: pgm.func("timezone('utc', now())"),
     },
 
     updated_at: {
       type: "timestamptz",
-      default: pgm.func("now()"),
+      notNull: true,
+      default: pgm.func("timezone('utc', now())"),
     },
+  });
+
+  // For reference, GitHub limits useranames to 39 characters.
+  pgm.addConstraint("users", "username_max_length", {
+    check: "char_length(username) <= 30",
+  });
+
+  // Why 254 in length? https://stackoverflow.com/a/1199238
+  pgm.addConstraint("users", "email_max_length", {
+    check: "char_length(email) <= 254",
   });
 };
 
